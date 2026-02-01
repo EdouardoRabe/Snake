@@ -44,11 +44,27 @@ jobs:
         with:
           name: snake-jar
 
+      - name: Inspect downloaded files (debug)
+        run: |
+          echo "Listing files in workspace"
+          ls -la
+          echo "Listing downloaded artifact directory"
+          ls -la snake-jar || true
+
+      - name: Move JAR to workspace root
+        run: |
+          set -e
+          if [ -d snake-jar ]; then
+            mv snake-jar/*.jar . || true
+          fi
+          echo "Files in workspace after move:"
+          ls -la
+
       - name: Create GitHub Release and upload JAR
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ github.ref_name }}
-          artifacts: 'snake-jar'
+          artifacts: '*.jar'
           token: ${{ secrets.GITHUB_TOKEN }}
           makeLatest: true
 
