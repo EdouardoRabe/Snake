@@ -46,5 +46,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ github.ref_name }}
-          files: '*.jar'
+          artifacts: 'snake-jar'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          makeLatest: true
 
